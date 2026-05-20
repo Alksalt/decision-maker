@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <title>Decision Maker</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <main id="app">
+      <button id="persona-chip" class="persona-chip" aria-label="Change persona"></button>
+      <ul id="options-list" class="options-list" aria-label="Options"></ul>
+      <div class="add-row">
+        <button id="add-quick" class="btn-secondary">+ Quick option</button>
+        <button id="add-typed" class="btn-secondary">+ Typed option</button>
+      </div>
+      <button id="spin-btn" class="btn-primary" disabled>SPIN</button>
+      <div id="reel-stage" class="reel-stage hidden" aria-hidden="true">
+        <div id="reel-track" class="reel-track"></div>
+      </div>
+      <div id="reveal" class="reveal hidden">
+        <div id="reveal-winner" class="reveal-winner"></div>
+        <div id="reveal-doubt" class="reveal-doubt"></div>
+        <div class="reveal-actions">
+          <button id="action-respin" class="btn-secondary">Spin again</button>
+          <button id="action-test" class="btn-secondary"></button>
+          <button id="action-done" class="btn-secondary">Done</button>
+        </div>
+      </div>
+      <div id="gut-check" class="gut-check hidden"></div>
+      <div id="test-stage" class="test-stage hidden"></div>
+      <dialog id="persona-sheet" class="persona-sheet"></dialog>
+    </main>
+    <script type="module" src="/src/main.ts"></script>
+  </body>
+</html>
