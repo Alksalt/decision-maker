@@ -61,7 +61,7 @@ export function PersonaChip({ persona, personas, onChange }: PersonaChipProps) {
       >
         <span
           class="persona-chip__circle"
-          style={{ background: persona.color }}
+          style={{ backgroundColor: persona.color }}
         >
           <span class="persona-chip__emoji">{persona.emoji}</span>
         </span>
