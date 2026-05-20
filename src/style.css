@@ -1,1 +1,243 @@
-/* Filled in by Task 5 */
+:root {
+  --bg: #f7f7f8;
+  --fg: #111;
+  --muted: #666;
+  --card: #fff;
+  --border: #e3e3e6;
+  --primary: #ff5b3a;
+  --primary-fg: #fff;
+  --reel-bg: #111;
+  --reel-fg: #ffd84d;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0d0d10;
+    --fg: #f3f3f5;
+    --muted: #9c9ca3;
+    --card: #1a1a1f;
+    --border: #2a2a31;
+  }
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--fg);
+  min-height: 100vh;
+  -webkit-tap-highlight-color: transparent;
+}
+
+#app {
+  max-width: 480px;
+  margin: 0 auto;
+  padding: 16px 16px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  min-height: 100vh;
+}
+
+.persona-chip {
+  align-self: flex-start;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 999px;
+  padding: 8px 14px;
+  font-size: 15px;
+  color: var(--fg);
+  cursor: pointer;
+  min-height: 36px;
+}
+
+.options-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.options-list li {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  min-height: 52px;
+}
+
+.options-list input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  font-size: 17px;
+  color: var(--fg);
+}
+
+.options-list input:focus {
+  border-bottom: 1px solid var(--primary);
+}
+
+.options-list .remove {
+  background: transparent;
+  border: none;
+  font-size: 22px;
+  color: var(--muted);
+  cursor: pointer;
+  width: 36px;
+  height: 36px;
+}
+
+.add-row {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-primary, .btn-secondary {
+  font-size: 17px;
+  font-weight: 600;
+  border-radius: 12px;
+  padding: 14px 18px;
+  min-height: 52px;
+  cursor: pointer;
+  border: 1px solid var(--border);
+  background: var(--card);
+  color: var(--fg);
+}
+
+.btn-primary {
+  background: var(--primary);
+  color: var(--primary-fg);
+  border-color: var(--primary);
+  font-size: 22px;
+  letter-spacing: 0.05em;
+}
+
+.btn-primary:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.btn-secondary { flex: 1; }
+
+.hidden { display: none !important; }
+
+.reel-stage {
+  background: var(--reel-bg);
+  border-radius: 16px;
+  height: 240px;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.reel-stage::before,
+.reel-stage::after {
+  content: '';
+  position: absolute;
+  left: 0; right: 0;
+  height: 80px;
+  pointer-events: none;
+  z-index: 1;
+}
+.reel-stage::before { top: 0; background: linear-gradient(to bottom, var(--reel-bg), transparent); }
+.reel-stage::after { bottom: 0; background: linear-gradient(to top, var(--reel-bg), transparent); }
+
+.reel-track {
+  width: 100%;
+  will-change: transform;
+}
+
+.reel-cell {
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  font-weight: 700;
+  color: var(--reel-fg);
+}
+
+.reveal {
+  text-align: center;
+  padding: 12px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.reveal-winner {
+  font-size: 48px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+.reveal-doubt {
+  font-size: 17px;
+  color: var(--muted);
+  line-height: 1.4;
+  padding: 0 8px;
+}
+
+.reveal-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 8px;
+}
+
+.gut-check, .test-stage {
+  text-align: center;
+  padding: 12px;
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.test-stage .test-row {
+  font-size: 22px;
+  font-weight: 600;
+}
+
+.persona-sheet {
+  border: none;
+  border-radius: 20px 20px 0 0;
+  background: var(--card);
+  color: var(--fg);
+  width: 100%;
+  max-width: 480px;
+  margin: auto auto 0;
+  padding: 16px;
+}
+
+.persona-sheet::backdrop { background: rgba(0,0,0,0.4); }
+
+.persona-sheet .persona-option {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 14px 12px;
+  width: 100%;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  font-size: 17px;
+  color: var(--fg);
+  text-align: left;
+  cursor: pointer;
+}
+.persona-sheet .persona-option:last-child { border-bottom: none; }
+.persona-sheet .persona-option .emoji { font-size: 24px; }
