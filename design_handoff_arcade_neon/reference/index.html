@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Decision Maker — Mobile Redesign</title>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Archivo+Black&family=DM+Serif+Display&family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=Instrument+Serif:ital@0;1&family=Instrument+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+  html, body { margin: 0; padding: 0; background: #f0eee9; font-family: -apple-system, system-ui, sans-serif; }
+  body { min-height: 100vh; }
+  * { box-sizing: border-box; }
+
+  /* Animations referenced by themes */
+  @keyframes arcadePop {
+    0% { opacity: 0; transform: scale(.92); }
+    60% { transform: scale(1.04); }
+    100% { opacity: 1; transform: scale(1); }
+  }
+  @keyframes mysticTwinkle {
+    0%, 100% { opacity: 0.35; }
+    50% { opacity: 1; }
+  }
+  @keyframes mysticRise {
+    0% { opacity: 0; transform: translateY(28px) scale(.92) rotate(-2deg); }
+    100% { opacity: 1; transform: translateY(0) scale(1) rotate(0); }
+  }
+  @keyframes mysticFlip {
+    0% { transform: rotateY(90deg); opacity: 0; }
+    100% { transform: rotateY(0); opacity: 1; }
+  }
+  @keyframes paperBlur {
+    0% { filter: blur(0.6px); }
+    100% { filter: blur(0); }
+  }
+  @keyframes paperFade {
+    0% { opacity: 0; transform: translateY(4px); }
+    100% { opacity: 1; transform: translateY(0); }
+  }
+
+  /* Hide native scrollbars inside iOS frames */
+  input { font-family: inherit; }
+  ::placeholder { opacity: 0.45; }
+
+  /* Caption above each frame */
+  .frame-caption {
+    text-align: center; margin-top: 8px; padding-top: 8px;
+    font-family: -apple-system, system-ui, sans-serif;
+  }
+  .frame-caption .name {
+    font-size: 13px; font-weight: 600; color: #2a251f;
+  }
+  .frame-caption .desc {
+    font-size: 11px; color: rgba(60,50,40,0.6); margin-top: 2px;
+  }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script type="text/babel" src="ios-frame.jsx"></script>
+<script type="text/babel" src="design-canvas.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="personas.jsx"></script>
+<script type="text/babel" src="app-core.jsx"></script>
+<script type="text/babel" src="theme-arcade.jsx"></script>
+<script type="text/babel" src="theme-mystic.jsx"></script>
+<script type="text/babel" src="theme-paper.jsx"></script>
+
+<script type="text/babel" data-presets="env,react">
+const { useState, useEffect } = React;
+
+const TWEAK_DEFAULTS = /*EDITMODE-BEGIN*/{
+  "persona": "mystic",
+  "preset": "food"
+}/*EDITMODE-END*/;
+
+const THEMES = [
+  { id: 'arcade', name: 'A · Arcade Neon', desc: 'Chunky slot machine, hot orange + yellow', App: () => <window.ArcadeApp /> },
+  { id: 'mystic', name: 'B · Mystic Tarot', desc: 'Card draw on midnight + gold leaf', App: () => <window.MysticApp /> },
+  { id: 'paper', name: 'C · Paper Editorial', desc: 'Cream & ink, serif headlines', App: () => <window.PaperApp /> },
+];
+
+// Sync persona/preset between tweak state and DM context via a bridge component
+function SyncTweaks({ persona, preset }) {
+  const dm = window.useDM();
+  useEffect(() => { if (dm.personaId !== persona) dm.setPersonaId(persona); }, [persona]);
+  useEffect(() => { if (dm.presetId !== preset) dm.setPresetId(preset); }, [preset]);
+  return null;
+}
+
+function ThemeFrame({ theme }) {
+  return (
+    <window.IOSDevice width={402} height={874}>
+      <theme.App />
+    </window.IOSDevice>
+  );
+}
+
+function App() {
+  const [tweaks, setTweak] = window.useTweaks(TWEAK_DEFAULTS);
+
+  return (
+    <window.DMProvider initialPersona={tweaks.persona} initialPreset={tweaks.preset}>
+      <SyncTweaks persona={tweaks.persona} preset={tweaks.preset} />
+
+      <window.DesignCanvas>
+        <window.DCSection
+          id="directions"
+          title="Decision Maker · Mobile Redesign"
+          subtitle="Three directions for the same one-tap flow. Pick options · tap to decide · the persona plants doubt. All three are fully interactive — try them. Switch persona & options via the Tweaks panel."
+        >
+          {THEMES.map(t => (
+            <window.DCArtboard
+              key={t.id}
+              id={t.id}
+              label={t.name}
+              width={402}
+              height={920}
+            >
+              <ThemeFrame theme={t} />
+              <div className="frame-caption">
+                <div className="desc">{t.desc}</div>
+              </div>
+            </window.DCArtboard>
+          ))}
+        </window.DCSection>
+      </window.DesignCanvas>
+
+      <window.TweaksPanel title="Tweaks">
+        <window.TweakSection label="Persona">
+          <window.TweakSelect
+            label="Voice of doubt"
+            value={tweaks.persona}
+            onChange={v => setTweak('persona', v)}
+            options={window.PERSONAS.map(p => ({ value: p.id, label: `${p.emoji} ${p.name}` }))}
+          />
+        </window.TweakSection>
+        <window.TweakSection label="Options preset">
+          <window.TweakSelect
+            label="Try a sample list"
+            value={tweaks.preset}
+            onChange={v => setTweak('preset', v)}
+            options={Object.entries(window.PRESETS).map(([k,p]) => ({ value: k, label: p.name }))}
+          />
+        </window.TweakSection>
+      </window.TweaksPanel>
+    </window.DMProvider>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>
