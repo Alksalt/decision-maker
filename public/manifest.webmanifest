@@ -1,0 +1,13 @@
+{
+  "name": "Decision Maker",
+  "short_name": "Decide",
+  "description": "Randomly pick — but always with doubt.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0d10",
+  "theme_color": "#ff5b3a",
+  "icons": [
+    { "src": "favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }
+  ]
+}
