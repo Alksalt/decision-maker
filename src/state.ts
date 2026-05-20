@@ -1,6 +1,13 @@
 import type { Option } from './spin';
 
-export type Mode = 'idle' | 'spinning' | 'revealed' | 'gutCheck' | 'testing' | 'testComplete';
+export type Mode =
+  | 'idle'
+  | 'spinning'
+  | 'revealed'
+  | 'gutCheck'
+  | 'testing'
+  | 'testComplete'
+  | 'outcome';
 
 export type AppState = {
   personaId: string;
@@ -8,6 +15,7 @@ export type AppState = {
   mode: Mode;
   winner: Option | null;
   testResults: string[];
+  outcomeText: string | null;
 };
 
 const LETTERS = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
@@ -22,6 +30,7 @@ export function createInitialState(): AppState {
     mode: 'idle',
     winner: null,
     testResults: [],
+    outcomeText: null,
   };
 }
 
@@ -75,8 +84,12 @@ export function finalizeConsensus(state: AppState, winner: Option | null): AppSt
   return { ...state, mode: 'testComplete', winner };
 }
 
+export function setOutcome(state: AppState, text: string): AppState {
+  return { ...state, mode: 'outcome', outcomeText: text };
+}
+
 export function reset(state: AppState): AppState {
-  return { ...state, mode: 'idle', winner: null, testResults: [] };
+  return { ...state, mode: 'idle', winner: null, testResults: [], outcomeText: null };
 }
 
 export function nonEmptyOptions(state: AppState): Option[] {

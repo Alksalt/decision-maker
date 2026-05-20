@@ -35,6 +35,23 @@ describe('getPersona', () => {
   });
 });
 
+describe('persona color (arcade)', () => {
+  it('every persona has a 6-digit hex color', () => {
+    for (const p of PERSONAS) {
+      expect(typeof p.color).toBe('string');
+      expect(p.color).toMatch(/^#[0-9A-Fa-f]{6}$/);
+    }
+  });
+
+  it('uses the arcade hex values from the handoff', () => {
+    const byId = Object.fromEntries(PERSONAS.map(p => [p.id, p.color]));
+    expect(byId.overthinker).toBe('#FF6B1F');
+    expect(byId.sarcastic).toBe('#FFD700');
+    expect(byId.mystic).toBe('#B16CFF');
+    expect(byId.zen).toBe('#3AE0C9');
+  });
+});
+
 describe('resolvePhrase', () => {
   it('substitutes {winner}', () => {
     expect(resolvePhrase('It says {winner}.', { winner: 'Pepsi' })).toBe('It says Pepsi.');

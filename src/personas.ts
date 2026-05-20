@@ -2,6 +2,7 @@ export type Persona = {
   id: string;
   name: string;
   emoji: string;
+  color: string;
   phrases: {
     spinning: string[];
     reveal: string[];
@@ -20,6 +21,7 @@ export const PERSONAS: Persona[] = [
     id: 'overthinker',
     name: 'Anxious Overthinker',
     emoji: '\u{1F62C}',
+    color: '#FF6B1F',
     phrases: {
       spinning: ['ok ok ok...', 'thinking...', "don't watch me", 'ugh fine'],
       reveal: ['{winner}. I guess?', 'It says {winner}.', '{winner}... maybe?'],
@@ -40,6 +42,7 @@ export const PERSONAS: Persona[] = [
     id: 'sarcastic',
     name: 'Sarcastic Friend',
     emoji: '\u{1F643}',
+    color: '#FFD700',
     phrases: {
       spinning: ['fine, hold on', 'consulting the gods of indecision', 'wow great question'],
       reveal: ['{winner}. Wild.', 'Oh look — {winner}.', "It's {winner}. Shocking."],
@@ -60,6 +63,7 @@ export const PERSONAS: Persona[] = [
     id: 'mystic',
     name: 'Mystic Oracle',
     emoji: '\u{1F52E}',
+    color: '#B16CFF',
     phrases: {
       spinning: ['the veil parts...', 'the stars align...', 'ancient forces stir...'],
       reveal: ['The fates choose {winner}.', '{winner}, whispers the void.', 'I see... {winner}.'],
@@ -80,6 +84,7 @@ export const PERSONAS: Persona[] = [
     id: 'zen',
     name: 'Zen Monk',
     emoji: '\u{1F9D8}',
+    color: '#3AE0C9',
     phrases: {
       spinning: ['breathe...', 'the answer is already within...', 'still the mind...'],
       reveal: ['{winner}.', 'The answer: {winner}.', '{winner} arrives.'],
