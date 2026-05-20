@@ -15,6 +15,18 @@ function buildCell(label: string): HTMLDivElement {
   return cell;
 }
 
+function prefersReducedMotion(): boolean {
+  return typeof window !== 'undefined'
+    && typeof window.matchMedia === 'function'
+    && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
+function buzz(): void {
+  if ('vibrate' in navigator) {
+    try { navigator.vibrate(40); } catch { /* unsupported */ }
+  }
+}
+
 export function animateReel(targetLabel: string, allLabels: string[]): Promise<void> {
   const stage = document.getElementById(REEL_STAGE_ID);
   const track = document.getElementById(REEL_TRACK_ID);
@@ -35,9 +47,15 @@ export function animateReel(targetLabel: string, allLabels: string[]): Promise<v
 
   const totalCells = TOTAL_SPINS + 1;
   const finalOffset = totalCells * ITEM_HEIGHT_PX - ITEM_HEIGHT_PX;
-  track.style.transform = 'translateY(0)';
 
   const trackEl = track;
+
+  if (prefersReducedMotion()) {
+    trackEl.style.transform = `translateY(-${finalOffset}px)`;
+    return Promise.resolve();
+  }
+
+  trackEl.style.transform = 'translateY(0)';
   return new Promise(resolve => {
     const start = performance.now();
     function frame(now: number): void {
@@ -47,9 +65,7 @@ export function animateReel(targetLabel: string, allLabels: string[]): Promise<v
       if (t < 1) {
         requestAnimationFrame(frame);
       } else {
-        if ('vibrate' in navigator) {
-          try { navigator.vibrate(40); } catch { /* unsupported */ }
-        }
+        buzz();
         resolve();
       }
     }

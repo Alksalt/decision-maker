@@ -6,7 +6,7 @@ export type AppState = {
   personaId: string;
   options: Option[];
   mode: Mode;
-  winner: string | null;
+  winner: Option | null;
   testResults: string[];
 };
 
@@ -55,7 +55,7 @@ export function startSpin(state: AppState): AppState {
   return { ...state, mode: 'spinning', winner: null, testResults: [] };
 }
 
-export function revealWinner(state: AppState, winner: string): AppState {
+export function revealWinner(state: AppState, winner: Option): AppState {
   return { ...state, mode: 'revealed', winner };
 }
 
@@ -64,14 +64,14 @@ export function enterGutCheck(state: AppState): AppState {
 }
 
 export function startConsensus(state: AppState): AppState {
-  return { ...state, mode: 'testing', testResults: [] };
+  return { ...state, mode: 'testing', winner: null, testResults: [] };
 }
 
 export function appendConsensusResult(state: AppState, label: string): AppState {
   return { ...state, testResults: [...state.testResults, label] };
 }
 
-export function finalizeConsensus(state: AppState, winner: string | null): AppState {
+export function finalizeConsensus(state: AppState, winner: Option | null): AppState {
   return { ...state, mode: 'testComplete', winner };
 }
 

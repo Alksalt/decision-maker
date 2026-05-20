@@ -18,8 +18,10 @@
       <button id="spin-btn" class="btn-primary" disabled>SPIN</button>
       <div id="reel-stage" class="reel-stage hidden" aria-hidden="true">
         <div id="reel-track" class="reel-track"></div>
+        <div id="spin-status" class="spin-status"></div>
       </div>
-      <div id="reveal" class="reveal hidden">
+      <div id="reveal" class="reveal hidden" aria-live="polite">
+        <div id="reveal-prefix" class="reveal-prefix"></div>
         <div id="reveal-winner" class="reveal-winner"></div>
         <div id="reveal-doubt" class="reveal-doubt"></div>
         <div class="reveal-actions">
@@ -28,9 +30,9 @@
           <button id="action-done" class="btn-secondary">Done</button>
         </div>
       </div>
-      <div id="gut-check" class="gut-check hidden"></div>
-      <div id="test-stage" class="test-stage hidden"></div>
-      <dialog id="persona-sheet" class="persona-sheet"></dialog>
+      <div id="gut-check" class="gut-check hidden" aria-live="polite"></div>
+      <div id="test-stage" class="test-stage hidden" aria-live="polite"></div>
+      <dialog id="persona-sheet" class="persona-sheet" aria-labelledby="persona-sheet-title"></dialog>
     </main>
     <script type="module" src="/src/main.ts"></script>
   </body>
