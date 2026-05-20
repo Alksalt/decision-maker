@@ -29,6 +29,9 @@ export function App() {
 
   const isSpinning = flow.mode === 'spinning';
   const winnerId = flow.winner?.id ?? null;
+  // Phrase resolution reads `validOptions` via flow.say -> ctxFor for {other}/{others}.
+  // Include the option labels in deps so editing options after reveal refreshes the doubt text.
+  const validOptionsKey = flow.validOptions.map(o => o.label).join('');
 
   const spinningPhrase = useMemo(
     () => pickRandom(persona.phrases.spinning),
@@ -37,12 +40,12 @@ export function App() {
 
   const revealEyebrow = useMemo(
     () => (flow.winner ? flow.say(pickRandom(persona.phrases.reveal), flow.winner) : ''),
-    [persona.id, winnerId],
+    [persona.id, winnerId, validOptionsKey],
   );
 
   const doubtText = useMemo(
     () => (flow.winner ? flow.say(pickRandom(persona.phrases.doubt), flow.winner) : ''),
-    [persona.id, winnerId],
+    [persona.id, winnerId, validOptionsKey],
   );
 
   const revealRow = (() => {

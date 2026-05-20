@@ -23,6 +23,7 @@ function shortName(persona: Persona): string {
 
 export function PersonaChip({ persona, personas, onChange }: PersonaChipProps) {
   const [open, setOpen] = useState<boolean>(false);
+  const triggerRef = useRef<HTMLButtonElement | null>(null);
   const firstItemRef = useRef<HTMLButtonElement | null>(null);
 
   useEffect(() => {
@@ -35,6 +36,7 @@ export function PersonaChip({ persona, personas, onChange }: PersonaChipProps) {
     const onKeyDown = (event: KeyboardEvent) => {
       if (event.key === 'Escape') {
         setOpen(false);
+        triggerRef.current?.focus();
       }
     };
     document.addEventListener('keydown', onKeyDown);
@@ -45,14 +47,15 @@ export function PersonaChip({ persona, personas, onChange }: PersonaChipProps) {
     };
   }, [open]);
 
-  const close = () => setOpen(false);
+  const closeAndRefocus = () => {
+    setOpen(false);
+    triggerRef.current?.focus();
+  };
 
   return (
-    <div
-      class="persona-chip-wrap"
-      style={{ position: 'relative', display: 'inline-block' }}
-    >
+    <div style={{ position: 'relative', display: 'inline-block' }}>
       <button
+        ref={triggerRef}
         type="button"
         class="persona-chip"
         aria-haspopup="menu"
@@ -84,7 +87,11 @@ export function PersonaChip({ persona, personas, onChange }: PersonaChipProps) {
       </button>
       {open && (
         <>
-          <div class="persona-popover__backdrop" onClick={close} />
+          <div
+            class="persona-popover__backdrop"
+            aria-hidden="true"
+            onClick={closeAndRefocus}
+          />
           <div class="persona-popover" role="menu">
             {personas.map((p, i) => (
               <button
@@ -95,7 +102,7 @@ export function PersonaChip({ persona, personas, onChange }: PersonaChipProps) {
                 class={`persona-popover__item ${p.id === persona.id ? 'persona-popover__item--active' : ''}`}
                 onClick={() => {
                   onChange(p.id);
-                  setOpen(false);
+                  closeAndRefocus();
                 }}
               >
                 <span class="persona-popover__item-emoji">{p.emoji}</span>

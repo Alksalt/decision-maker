@@ -40,7 +40,7 @@ export function Actions({
   if (mode === 'revealed') {
     return (
       <div class="actions-stack">
-        <ArcadeBtn variant="primary" onClick={onSpinAgain}>Spin again</ArcadeBtn>
+        <ArcadeBtn variant="primary" onClick={onSpinAgain} disabled={!canSpin}>Spin again</ArcadeBtn>
         <div class="actions-row">
           {validCount === 2 && (
             <ArcadeBtn variant="ghost" onClick={onGutCheck}>Gut-check</ArcadeBtn>
@@ -64,7 +64,7 @@ export function Actions({
 
   return (
     <div class="actions-stack">
-      <ArcadeBtn variant="primary" onClick={onSpinAgain}>Spin again</ArcadeBtn>
+      <ArcadeBtn variant="primary" onClick={onSpinAgain} disabled={!canSpin}>Spin again</ArcadeBtn>
       <div class="actions-row">
         <ArcadeBtn variant="ghost" onClick={onReset}>Reset</ArcadeBtn>
       </div>

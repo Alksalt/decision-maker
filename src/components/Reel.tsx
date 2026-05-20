@@ -69,7 +69,7 @@ export function Reel(props: ReelProps) {
           </div>
         ))}
       </div>
-      {mode === 'spinning' && spinningPhrase && (
+      {(mode === 'spinning' || mode === 'testing') && spinningPhrase && (
         <div class="reel__phrase">{spinningPhrase}</div>
       )}
     </div>

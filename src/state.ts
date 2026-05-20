@@ -61,7 +61,7 @@ export function setPersona(state: AppState, personaId: string): AppState {
 }
 
 export function startSpin(state: AppState): AppState {
-  return { ...state, mode: 'spinning', winner: null, testResults: [] };
+  return { ...state, mode: 'spinning', winner: null, testResults: [], outcomeText: null };
 }
 
 export function revealWinner(state: AppState, winner: Option): AppState {

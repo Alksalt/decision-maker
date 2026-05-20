@@ -22,8 +22,18 @@ export function OptionsBlock({
       <div class="options-header">
         <span class="options-header__count">OPTIONS · {options.length}</span>
         <div class="options-add-row">
-          <button type="button" class="options-add-btn" onClick={onAddQuick}>+ A</button>
-          <button type="button" class="options-add-btn" onClick={onAddTyped}>+ Text</button>
+          <button
+            type="button"
+            class="options-add-btn"
+            onClick={onAddQuick}
+            disabled={disabled}
+          >+ A</button>
+          <button
+            type="button"
+            class="options-add-btn"
+            onClick={onAddTyped}
+            disabled={disabled}
+          >+ Text</button>
         </div>
       </div>
       {options.length === 0 ? (
@@ -38,6 +48,7 @@ export function OptionsBlock({
                 type="text"
                 value={opt.label}
                 placeholder="type…"
+                disabled={disabled}
                 onInput={(e) =>
                   onUpdate(opt.id, (e.currentTarget as HTMLInputElement).value)
                 }
@@ -46,6 +57,7 @@ export function OptionsBlock({
                 type="button"
                 class="option-row__remove"
                 aria-label={`Remove option ${i + 1}`}
+                disabled={disabled}
                 onClick={() => onRemove(opt.id)}
               >
                 ×
